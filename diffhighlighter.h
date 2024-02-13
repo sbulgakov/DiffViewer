@@ -12,6 +12,8 @@ class DiffHighlighter : public QSyntaxHighlighter
 public:
     DiffHighlighter(QTextDocument *parent = 0);
     
+    void enableRulesBackbround(bool on);
+    
 protected:
     void highlightBlock(const QString &text);
 };

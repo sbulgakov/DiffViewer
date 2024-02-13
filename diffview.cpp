@@ -186,6 +186,10 @@ diffview::diffview(QWidget *parent)
   fileActOpen = fileMenu->addAction(tr("&Open"), this, SLOT(Open()));
   fileActExit = fileMenu->addAction(tr("E&xit"), qApp, SLOT(quit()));
   
+  QMenu *viewMenu = mainMenu->addMenu(tr("&View"));
+         viewMenu->addAction(tr("&Increase font"), this, SLOT(incFont()));
+         viewMenu->addAction(tr("&Decrease font"), this, SLOT(decFont()));
+  
   toolsMenu = mainMenu->addMenu(tr("&Tools"));
   
   toolsActFilter = toolsMenu->addAction(tr("&Filter"), this, SLOT(Filter()));
@@ -201,6 +205,20 @@ diffview::diffview(QWidget *parent)
 diffview::~diffview()
 {
     
+}
+
+void diffview::incFont()
+{
+  QFont font = edit->font();
+  font.setPointSize(font.pointSize()+2);
+  edit->setFont(font);
+}
+
+void diffview::decFont()
+{
+  QFont font = edit->font();
+  font.setPointSize(font.pointSize()-2);
+  edit->setFont(font);
 }
 
 void diffview::Open()
@@ -222,6 +240,10 @@ void diffview::Open()
 
 void diffview::Filter()
 {
+  DiffHighlighter *h = qobject_cast<DiffHighlighter*>(highlighter);
+  h->enableRulesBackbround(false);
+  h->rehighlight();
+  
   QList<QTextEdit::ExtraSelection> extraSelections;
   
   QTextBlock block = edit->document()->begin();

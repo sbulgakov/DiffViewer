@@ -105,6 +105,55 @@ DiffHighlighter::DiffHighlighter(QTextDocument *parent)
   rules.append(qMakePair(exp,fmt));
 }
 
+void DiffHighlighter::enableRulesBackbround(bool on)
+{
+  QColor Ivory(252, 255, 233);
+  QColor PalePink(253, 224, 217);
+  QColor TeaGreen(202, 239, 209);
+  
+  QRegExp add;
+  QRegExp del;
+  QTextCharFormat fmt;
+  
+  add.setPattern("^\\+.*$");
+  del.setPattern("^-.*$");
+  
+  if(on)
+  for(int i = 0; i < rules.size(); ++i)
+  {
+    if(rules.at(i).first == add)
+    {
+      fmt = rules.at(i).second;
+      fmt.setBackground(TeaGreen);
+      rules.replace(i, qMakePair(add,fmt));
+    }
+    else if(rules.at(i).first == del)
+    {
+      fmt = rules.at(i).second;
+      fmt.setBackground(PalePink);
+      rules.replace(i, qMakePair(del,fmt));
+    }
+  }
+  else
+  for(int i = 0; i < rules.size(); ++i)
+  {
+    if(rules.at(i).first == add)
+    {
+      fmt = rules.at(i).second;
+      fmt.setForeground(QColor(Qt::green).darker(200).darker(125));
+      fmt.setBackground(Ivory);
+      rules.replace(i, qMakePair(add,fmt));
+    }
+    else if(rules.at(i).first == del)
+    {
+      fmt = rules.at(i).second;
+      fmt.setForeground(QColor(Qt::red).darker(200).darker(125));
+      fmt.setBackground(Ivory);
+      rules.replace(i, qMakePair(del,fmt));
+    }
+  }
+}
+
 void DiffHighlighter::highlightBlock(const QString &text)
 {
   QPair<QRegExp,QTextCharFormat> r;

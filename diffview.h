@@ -42,6 +42,9 @@ public slots:
     
     void Filter();
     
+    void incFont();
+    void decFont();
+    
 private:
     QList<diffview::Operation> diff(const QString& a, const QString& b);
     QList<QTextEdit::ExtraSelection> select(const QList<Operation>& s, int pos1, int pos2);
